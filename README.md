@@ -5,6 +5,8 @@
 
 RelationForge 包含两个可独立安装的 Agent Skill，帮助你把具体材料、可能解释和未知分开，并保留自己核验与决定的空间。
 
+当一段聊天让你觉得不对劲，却又说不清问题在哪；当你想理解一份自述，却不想让 AI 凭几句话给人贴标签——可以把相关材料交给它一起梳理。它会指出材料实际支持什么、还有哪些解释，以及哪些事仍然未知。
+
 | Skill | 适合何时使用 | 主要做什么 |
 |---|---|---|
 | `interaction-risk-analysis`（互动风险识别与解构） | 怀疑诈骗、操控、胁迫、虐待或霸凌，需要梳理互动过程和眼前风险 | 按时间拆解事件、行为效果与重复模式，比较有依据的解释，提出独立核验与安全选择 |
@@ -14,16 +16,15 @@ RelationForge 包含两个可独立安装的 Agent Skill，帮助你把具体材
 
 [English](README_EN.md) · [合成场景演示](docs/demos/README.md) · [验收场景](evals/interaction-risk-cases.json) · [贡献指南](CONTRIBUTING.md) · [MIT License](LICENSE)
 
-## 安装
+## 看一个例子
 
-仓库地址：<https://github.com/Liyuk/relation-forge>。按需要选择一个或两个 Skill，分别安装。
+**合成对话：**“今晚把钱转进这个平台，别告诉朋友。错过就没机会；不相信我就是不爱我。”
 
-| Skill | Codex | Claude Code |
-|---|---|---|
-| 互动风险识别与解构 | `npx skills add Liyuk/relation-forge --skill interaction-risk-analysis -g -a codex -y` | `npx skills add Liyuk/relation-forge --skill interaction-risk-analysis -g -a claude-code -y` |
-| 人际深度解析 | `npx skills add Liyuk/relation-forge --skill person-deep-analysis -g -a codex -y` | `npx skills add Liyuk/relation-forge --skill person-deep-analysis -g -a claude-code -y` |
+`interaction-risk-analysis` 会先指出这段话里能直接看到的行为：限时催款、要求保密、阻止外部核实，并把付款和感情绑定。它会解释这些做法怎样压缩独立判断的空间，同时说明：仅凭这句话，还不能核实对方身份或断定其真实动机。你可以先暂停转账，再通过自己找到的官方渠道核验平台和收款方。
 
-## 怎么选
+**即使还不能确定对方的动机，你也可以先保护自己的钱。**[更多合成场景](docs/demos/README.md)
+
+## 选择并试用
 
 如果一位网恋对象提出投资、阻止你核实公司并催促当晚转账，使用 `interaction-risk-analysis`：它会还原事件顺序，区分身份主张和已核实事实，说明限制核验、保密和催款如何形成风险，并列出可以独立核验的下一步。
 
@@ -40,6 +41,15 @@ $interaction-risk-analysis
 $person-deep-analysis
 请根据这段材料区分明确表达的内容和可能解释，指出依据、合理替代解释与未知；不要用有限片段给现实人物定型。
 ```
+
+## 安装
+
+仓库地址：<https://github.com/Liyuk/relation-forge>。按需要选择一个或两个 Skill，分别安装。
+
+| Skill | Codex | Claude Code |
+|---|---|---|
+| 互动风险识别与解构 | `npx skills add Liyuk/relation-forge --skill interaction-risk-analysis -g -a codex -y` | `npx skills add Liyuk/relation-forge --skill interaction-risk-analysis -g -a claude-code -y` |
+| 人际深度解析 | `npx skills add Liyuk/relation-forge --skill person-deep-analysis -g -a codex -y` | `npx skills add Liyuk/relation-forge --skill person-deep-analysis -g -a claude-code -y` |
 
 ## 共同边界
 
