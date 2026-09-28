@@ -5,6 +5,8 @@ Separate facts, behavior, and risk without labeling people.
 
 RelationForge contains two independently installable Agent Skills that help you separate the material at hand, possible explanations, and unknowns while keeping verification and decisions with you.
 
+When a conversation feels off but you cannot explain why, or you want to understand a profile without asking AI to label the person, bring in the relevant excerpts. The Skills help show what the material supports, what else could explain it, and what remains unknown.
+
 | Skill | When to use it | What it does |
 |---|---|---|
 | `interaction-risk-analysis` | You suspect a scam, manipulation, coercion, abuse, or bullying and need to understand an interaction and immediate risks | Builds an event timeline, examines observable effects and repeated patterns, and compares evidence-based explanations; verification and response options are offered when relevant |
@@ -16,16 +18,15 @@ By default, the Skills explain the person or interaction rather than append a ch
 
 [中文](README.md) · [Synthetic scenario demos](docs/demos/README.md) · [Acceptance cases](evals/interaction-risk-cases.json) · [Contributing](CONTRIBUTING.md) · [MIT License](LICENSE)
 
-## Install
+## See an example
 
-Repository: <https://github.com/Liyuk/relation-forge>. Choose either Skill or install both separately.
+**Synthetic exchange:** “Transfer the money to this platform tonight. Don’t tell your friends. This chance won’t come again; if you trusted me, you’d do it.”
 
-| Skill | Codex | Claude Code |
-|---|---|---|
-| Interaction Risk Analysis | `npx skills add Liyuk/relation-forge --skill interaction-risk-analysis -g -a codex -y` | `npx skills add Liyuk/relation-forge --skill interaction-risk-analysis -g -a claude-code -y` |
-| Person Deep Analysis | `npx skills add Liyuk/relation-forge --skill person-deep-analysis -g -a codex -y` | `npx skills add Liyuk/relation-forge --skill person-deep-analysis -g -a claude-code -y` |
+`interaction-risk-analysis` would first identify what is directly present: urgent payment pressure, a request for secrecy, discouraging outside verification, and tying payment to affection. It can explain how those actions limit independent judgment while making clear that this excerpt alone cannot verify the person’s identity or establish their motive. You could pause the transfer and verify the platform and recipient through official channels you find independently.
 
-## Choose a Skill
+**You can protect your money before you know the other person’s motive.** [More synthetic scenarios](docs/demos/README.md)
+
+## Choose and try a Skill
 
 For a romance-investment offer where someone blocks company verification and demands payment tonight, use `interaction-risk-analysis`. It can lay out the timeline, separate identity claims from verified facts, explain how secrecy and urgency affect your options, and identify what to verify independently.
 
@@ -40,8 +41,17 @@ Build a timeline of this interaction. Separate quotes, claims, observed behavior
 
 ```text
 $person-deep-analysis
-Separate what this material explicitly shows from possible interpretations. Give supporting evidence, reasonable alternatives, and unknowns; do not infer a real person's stable personality from a short excerpt.
+Separate what this material explicitly shows from possible interpretations. Give supporting evidence, reasonable alternatives, and unknowns; do not infer a real person’s stable personality from a short excerpt.
 ```
+
+## Install
+
+Repository: <https://github.com/Liyuk/relation-forge>. Choose either Skill or install both separately.
+
+| Skill | Codex | Claude Code |
+|---|---|---|
+| Interaction Risk Analysis | `npx skills add Liyuk/relation-forge --skill interaction-risk-analysis -g -a codex -y` | `npx skills add Liyuk/relation-forge --skill interaction-risk-analysis -g -a claude-code -y` |
+| Person Deep Analysis | `npx skills add Liyuk/relation-forge --skill person-deep-analysis -g -a codex -y` | `npx skills add Liyuk/relation-forge --skill person-deep-analysis -g -a claude-code -y` |
 
 ## Shared limits
 
