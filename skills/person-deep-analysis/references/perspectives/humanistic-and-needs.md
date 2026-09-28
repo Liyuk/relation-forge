@@ -17,7 +17,8 @@
 
 - 不替当事人宣布“真实自我”“人生使命”或其必须追求的成长方向。
 - 不把与分析者价值观不一致的选择说成未成长、不自洽或不健康。
-- 自我决定理论的自主、胜任、联结属于理论构念；用户提供的短文本不能自动测量其满足程度。[APA：自我决定理论](https://www.apa.org/research-practice/conduct-research/self-determination-theory.html)
-- Maslow 需求层次只可作为常见的历史性提问框架，不使用固定、普遍的逐级满足顺序，也不从行为反推某层需求匮乏。现有实证检验对其顺序性假设提出了反证。[Maslow 层级实证检验](https://www.sciencedirect.com/science/article/pii/S0305750X23000037)
+- 自我决定理论把自主、胜任、联结视为基本心理需要，可用来提问一段安排让谁有选择、有效感和关系连接；不能从短文本测量三项需要的满足程度或断言行为动机。[Ryan 与 Deci 2000 原论文](https://selfdeterminationtheory.org/SDT/documents/2000_RyanDeci_SDT.pdf)
+- Maslow 原文提出需求类别和相对优势次序，也承认顺序例外、多个需求可部分同时满足、行为通常有多种原因。可借其类别整理明确诉求，不能把关系文案归入单一层级，或由“重视稳定/亲密”反推匮乏。[Maslow 1943 原文](https://www.yorku.ca/pclassic/Maslow/motivation.htm)
+- 严格、普遍的逐级满足顺序缺少稳固的实证支持：早期综述只发现有限支持，后来的跨国调查发现不同需求与幸福感的关联不强依赖满足顺序。这些是群体层面的研究，不能据此诊断个人。[Wahba 与 Bridwell 1976 综述](https://doi.org/10.1016/0030-5073(76)90038-6) · [Tay 与 Diener 2011 研究](https://louis-tay.squarespace.com/s/needs-and-subjective-well-being-around-the-world.pdf)
 
 罗杰斯的人本主义理论讨论治疗关系和改变条件，不是用文字分类个体“真正需要”的算法。[Rogers 1957 原始论文记录](https://pubmed.ncbi.nlm.nih.gov/13416422/)

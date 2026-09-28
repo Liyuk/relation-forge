@@ -7,10 +7,12 @@ RelationForge contains two independently installable Agent Skills that help you 
 
 | Skill | When to use it | What it does |
 |---|---|---|
-| `interaction-risk-analysis` | You suspect a scam, manipulation, coercion, abuse, or bullying and need to understand an interaction and immediate risks | Builds an event timeline, examines observable effects and repeated patterns, compares evidence-based explanations, and offers independent verification and safety options |
+| `interaction-risk-analysis` | You suspect a scam, manipulation, coercion, abuse, or bullying and need to understand an interaction and immediate risks | Builds an event timeline, examines observable effects and repeated patterns, and compares evidence-based explanations; verification and response options are offered when relevant |
 | `person-deep-analysis` | You want to understand a self-description, profile, selected chat or interaction excerpts, or a fictional character; you may explicitly request multiple perspectives | Separates quotes and observable behavior from limited interpretations, drawing on relevant person, relationship, narrative, or psychological lenses |
 
 Both can address concerning relationship interactions. If someone is pressuring you for money or credentials, threatening you, or controlling your choices, address immediate financial and personal safety first. Neither Skill diagnoses a person, establishes a crime or hidden motive, or decides a relationship for you.
+
+By default, the Skills explain the person or interaction rather than append a checklist of advice. They discuss options when you ask what to do or face an important decision; imminent payment, credential, or physical danger calls for a brief protective warning first. Missing details alone do not prove intentional concealment, and subjective motives are not assigned precise probabilities without reliable reference data.
 
 [中文](README.md) · [Synthetic scenario demos](docs/demos/README.md) · [Acceptance cases](evals/interaction-risk-cases.json) · [Contributing](CONTRIBUTING.md) · [MIT License](LICENSE)
 
