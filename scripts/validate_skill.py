@@ -10,6 +10,10 @@ from urllib.parse import unquote, urlparse
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.sync_shared_copies import copy_errors
 SKILL_NAMES = ("interaction-risk-analysis", "person-deep-analysis")
 REQUIRED_FILES = (
     "skills/interaction-risk-analysis/SKILL.md",
@@ -79,7 +83,9 @@ REQUIRED_FILES = (
     "docs/demos/07-single-memory-conflict.md",
     "docs/demos/08-counterevidence-update.md",
     "README.md",
-    "README_EN.md",
+    "README.zh-CN.md",
+    "shared/README.md",
+    "shared/manifest.json",
     "CONTRIBUTING.md",
     "LICENSE",
     "docs/launch/README.md",
@@ -99,7 +105,6 @@ REQUIRED_FILES = (
     "evals/results/2026-09-24-network-example-ab-pilot.md",
     "evals/results/2026-09-25-scope-expansion-smoke.md",
     "evals/results/2026-09-24-fraud-agency-forward-test.md",
-    "evals/results/2026-09-25-scope-expansion-smoke.md",
     "evals/scenarios.json",
     "evals/cases/case-single-dating.md",
     "evals/cases/case-couple-conflict.md",
@@ -107,17 +112,25 @@ REQUIRED_FILES = (
     "scripts/check_skill_discovery.py",
     "scripts/check_skill_installation.py",
     "scripts/validate_skill.py",
+    "scripts/sync_shared_copies.py",
     "scripts/validate_safety_evals.py",
     "scripts/validate_interaction_risk_evals.py",
     "scripts/validate_evals.py",
 )
 LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
+PACKAGE_LINK_RE = re.compile(r"!\[[^\]]*\]\(([^)]+)\)|(?<!!)\[[^\]]*\]\(([^)]+)\)")
 RUNTIME_REF_RE = re.compile(r"`((?:references|modules|dlc)/[^`\s]+)`")
 FRONTMATTER_RE = re.compile(r"\A---\s*\n(.*?)\n---\s*(?:\n|\Z)", re.DOTALL)
+H2_RE = re.compile(r"^## ", re.MULTILINE)
+CJK_RE = re.compile(r"[\u3400-\u9fff]")
+NEIGHBORS = {
+    "interaction-risk-analysis": "person-deep-analysis",
+    "person-deep-analysis": "interaction-risk-analysis",
+}
 
 
-def check_frontmatter(skill_name: str, errors: list[str]) -> None:
-    skill_file = REPO_ROOT / "skills" / skill_name / "SKILL.md"
+def check_frontmatter(skill_name: str, errors: list[str], root: Path = REPO_ROOT) -> None:
+    skill_file = root / "skills" / skill_name / "SKILL.md"
     if not skill_file.is_file():
         return
     content = skill_file.read_text(encoding="utf-8")
@@ -145,6 +158,17 @@ def check_frontmatter(skill_name: str, errors: list[str]) -> None:
         errors.append(f"skills/{skill_name}/SKILL.md: frontmatter description exceeds 1024 characters")
     if description_match and not description_match.group(1).lstrip().startswith("Use when"):
         errors.append(f"skills/{skill_name}/SKILL.md: description should begin with a clear usage trigger ('Use when')")
+    if not re.search(r"^license:\s*MIT\s*$", fields, flags=re.MULTILINE):
+        errors.append(f"skills/{skill_name}/SKILL.md: frontmatter must include 'license: MIT'")
+    neighbor = NEIGHBORS.get(skill_name)
+    description_text = description_match.group(1) if description_match else ""
+    if neighbor and not re.search(
+        r"(?<![A-Za-z0-9-])" + re.escape(neighbor) + r"(?![A-Za-z0-9-])",
+        description_text,
+    ):
+        errors.append(
+            f"skills/{skill_name}/SKILL.md: description must name the neighboring skill {neighbor}"
+        )
 
 
 def check_required_files(errors: list[str]) -> None:
@@ -201,21 +225,150 @@ def check_markdown_links(errors: list[str]) -> None:
                     errors.append(f"{relative}:{line_number}: local link target not found: {path}")
 
 
-def main() -> int:
-    errors: list[str] = []
-    check_required_files(errors)
+def local_link_target(target: str) -> str | None:
+    cleaned = target.strip().split(maxsplit=1)[0].strip("<>")
+    parsed = urlparse(cleaned)
+    if parsed.scheme or cleaned.startswith("//") or cleaned.startswith("#"):
+        return None
+    return unquote(parsed.path) or None
+
+
+def check_package_links(errors: list[str], root: Path = REPO_ROOT) -> None:
+    """Fail when a skill package links to a file outside its own directory."""
     for skill_name in SKILL_NAMES:
-        check_frontmatter(skill_name, errors)
-    check_no_root_skill(errors)
-    check_installable_skills(errors)
-    check_runtime_references(errors)
-    check_markdown_links(errors)
+        skill_dir = (root / "skills" / skill_name).resolve()
+        if not skill_dir.is_dir():
+            continue
+        for source in sorted(skill_dir.rglob("*")):
+            if source.is_symlink():
+                errors.append(
+                    f"{source.relative_to(root)}: symlink is not allowed inside an installable skill package"
+                )
+                continue
+            if source.suffix != ".md" or not source.is_file():
+                continue
+            relative = source.relative_to(root)
+            for line_number, line in enumerate(source.read_text(encoding="utf-8").splitlines(), 1):
+                for match in PACKAGE_LINK_RE.finditer(line):
+                    local_path = local_link_target(match.group(1) or match.group(2))
+                    if local_path is None:
+                        continue
+                    resolved = (source.parent / local_path).resolve()
+                    try:
+                        resolved.relative_to(skill_dir)
+                    except ValueError:
+                        errors.append(
+                            f"{relative}:{line_number}: link points outside the skill package: {local_path}"
+                        )
+
+
+def check_readme_editions(errors: list[str], root: Path = REPO_ROOT) -> None:
+    """Require an English default README and a Chinese twin with the same sections."""
+    english = root / "README.md"
+    chinese = root / "README.zh-CN.md"
+    texts: dict[str, str] = {}
+    for path in (english, chinese):
+        if not path.is_file():
+            errors.append(f"missing required file: {path.relative_to(root)}")
+            continue
+        texts[path.name] = path.read_text(encoding="utf-8")
+    if "README.md" in texts and not texts["README.md"].startswith("[Chinese](README.zh-CN.md)"):
+        errors.append("README.md: first line must link to README.zh-CN.md")
+    if "README.zh-CN.md" in texts and not texts["README.zh-CN.md"].startswith("[英文](README.md)"):
+        errors.append("README.zh-CN.md: first line must link to README.md")
+    if "README.md" in texts and CJK_RE.search(texts["README.md"]):
+        errors.append("README.md: English edition must not contain Chinese characters")
+    if "README.zh-CN.md" in texts and not CJK_RE.search(texts["README.zh-CN.md"]):
+        errors.append("README.zh-CN.md: Chinese edition must contain Chinese characters")
+    if len(texts) == 2:
+        english_sections = len(H2_RE.findall(texts["README.md"]))
+        chinese_sections = len(H2_RE.findall(texts["README.zh-CN.md"]))
+        if english_sections != chinese_sections:
+            errors.append(
+                "README section count differs: "
+                f"README.md has {english_sections} level-2 headings, "
+                f"README.zh-CN.md has {chinese_sections}"
+            )
+        check_use_instead_column(errors, texts["README.md"], "Use instead", "README.md")
+        check_use_instead_column(errors, texts["README.zh-CN.md"], "改用", "README.zh-CN.md")
+
+
+def markdown_tables(text: str) -> list[list[list[str]]]:
+    tables: list[list[list[str]]] = []
+    lines = text.splitlines()
+    index = 0
+    while index < len(lines):
+        if lines[index].startswith("|") and index + 1 < len(lines) and re.match(r"^\|\s*-+", lines[index + 1]):
+            rows: list[list[str]] = []
+            while index < len(lines) and lines[index].startswith("|"):
+                rows.append([cell.strip() for cell in lines[index].strip().strip("|").split("|")])
+                index += 1
+            tables.append(rows)
+        else:
+            index += 1
+    return tables
+
+
+def check_use_instead_column(errors: list[str], text: str, header_name: str, filename: str) -> None:
+    matched = False
+    for rows in markdown_tables(text):
+        if not rows or header_name not in rows[0]:
+            continue
+        matched = True
+        try:
+            column = rows[0].index(header_name)
+        except ValueError:
+            errors.append(f"{filename}: {header_name} column is not a table header cell")
+            continue
+        for row in rows[2:]:
+            if not row or column >= len(row):
+                errors.append(f"{filename}: skill table row is missing the {header_name} column")
+                continue
+            present = [name for name in SKILL_NAMES if name in row[0]]
+            if len(present) != 1:
+                continue
+            other = NEIGHBORS[present[0]]
+            if other not in row[column]:
+                errors.append(f"{filename}: {header_name} cell for {present[0]} must name {other}")
+            if filename == "README.md" and CJK_RE.search(row[column]):
+                errors.append(f"{filename}: {header_name} cell for {present[0]} must stay in English")
+    if not matched:
+        errors.append(f"{filename}: skill table must include a {header_name} column")
+
+
+def check_shared_copies(errors: list[str], root: Path = REPO_ROOT) -> None:
+    errors.extend(copy_errors(root))
+
+
+def collect_errors(root: Path = REPO_ROOT) -> list[str]:
+    errors: list[str] = []
+    if root == REPO_ROOT:
+        check_required_files(errors)
+        for skill_name in SKILL_NAMES:
+            check_frontmatter(skill_name, errors)
+        check_no_root_skill(errors)
+        check_installable_skills(errors)
+        check_runtime_references(errors)
+        check_markdown_links(errors)
+    check_package_links(errors, root)
+    check_readme_editions(errors, root)
+    check_shared_copies(errors, root)
+    return errors
+
+
+def main() -> int:
+    errors = collect_errors()
     if errors:
         print("Repository validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
-    print("Repository validation passed (package files, frontmatter, root boundary, local Markdown links).")
+    print(
+        "Repository validation passed "
+        "(package files, frontmatter, neighboring skills, licenses, "
+        "in-package links, shared copies, local Markdown links, "
+        "English and Chinese READMEs)."
+    )
     return 0
 
 

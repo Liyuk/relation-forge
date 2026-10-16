@@ -1,68 +1,75 @@
+[Chinese](README.zh-CN.md)
+
 # RelationForge
 
 *Evidence-first reasoning for people, interactions, and risk*
-拆事实，看言行，辨风险，不替人定性。
 
-RelationForge 包含两个可独立安装的 Agent Skill，帮助你把具体材料、可能解释和未知分开，并保留自己核验与决定的空间。
+Separate facts, behavior, and risk without labeling people.
 
-当一段聊天让你觉得不对劲，却又说不清问题在哪；当你想理解一份自述，却不想让 AI 凭几句话给人贴标签——可以把相关材料交给它一起梳理。它会指出材料实际支持什么、还有哪些解释，以及哪些事仍然未知。
+RelationForge contains two independently installable Agent Skills that help you separate the material at hand, possible explanations, and unknowns while keeping verification and decisions with you.
 
-| Skill | 适合何时使用 | 主要做什么 |
-|---|---|---|
-| `interaction-risk-analysis`（互动风险识别与解构） | 怀疑诈骗、操控、胁迫、虐待或霸凌，需要梳理互动过程和眼前风险 | 按时间拆解事件、行为效果、信息缺口与诱导动作，比较有依据的解释；应对与核验按需展开 |
-| `person-deep-analysis`（人际深度解析） | 想理解自述、个人介绍、征友贴、选取的聊天/互动材料或虚构角色，或明确需要多视角解读 | 区分自我呈现、实际行动、利益流向与有限的候选解释；按材料选用人物、关系、叙事或心理学视角 |
+When a conversation feels off but you cannot explain why, or you want to understand a profile without asking AI to label the person, bring in the relevant excerpts. The Skills help show what the material supports, what else could explain it, and what remains unknown.
 
-两者都可以处理关系中的可疑互动。若正在被催款、索取凭证、威胁或控制，先处理现实安全和财务风险；不要让人物解读拖延止损。两者都不诊断人格、确认犯罪或隐藏动机，也不替用户决定关系走向。
+| Skill | When to use it | What it does | Use instead |
+|---|---|---|---|
+| `interaction-risk-analysis` | You suspect a scam, manipulation, coercion, abuse, or bullying and need to understand an interaction and immediate risks | Builds an event timeline, examines observable effects and repeated patterns, and compares evidence-based explanations; verification and response options are offered when relevant | For a self-description, profile, or interaction with no concrete risk cue, use `person-deep-analysis` |
+| `person-deep-analysis` | You want to understand a self-description, profile, selected chat or interaction excerpts, or a fictional character; you may explicitly request multiple perspectives | Separates quotes and observable behavior from limited interpretations, drawing on relevant person, relationship, narrative, or psychological lenses | For concrete payment, credential, coercion, or imminent safety risks, use `interaction-risk-analysis` |
 
-默认先回答“这人/这段互动怎么看”，不把建议清单当固定结尾。用户问“怎么办”或正面临重要决定时再讨论可选做法；迫近的转账、凭证或人身风险则先简短止损。分析未提及的信息时，“没写”不等于“故意隐瞒”；没有可靠基准数据，不报看似精确的动机概率。
+Each skill's description names the other skill when a task crosses that boundary. Both can address concerning relationship interactions. If someone is pressuring you for money or credentials, threatening you, or controlling your choices, address immediate financial and personal safety first. Neither Skill diagnoses a person, establishes a crime or hidden motive, or decides a relationship for you.
 
-[English](README_EN.md) · [合成场景演示](docs/demos/README.md) · [验收场景](evals/interaction-risk-cases.json) · [贡献指南](CONTRIBUTING.md) · [MIT License](LICENSE)
+By default, the Skills explain the person or interaction rather than append a checklist of advice. They discuss options when you ask what to do or face an important decision; imminent payment, credential, or physical danger calls for a brief protective warning first. Missing details alone do not prove intentional concealment, and subjective motives are not assigned precise probabilities without reliable reference data.
 
-## 看一个例子
+[Synthetic scenario demos](docs/demos/README.md) · [Acceptance cases](evals/interaction-risk-cases.json) · [Contributing](CONTRIBUTING.md) · [MIT License](LICENSE)
 
-**合成对话：**“今晚把钱转进这个平台，别告诉朋友。错过就没机会；不相信我就是不爱我。”
+## See an example
 
-`interaction-risk-analysis` 会先指出这段话里能直接看到的行为：限时催款、要求保密、阻止外部核实，并把付款和感情绑定。它会解释这些做法怎样压缩独立判断的空间，同时说明：仅凭这句话，还不能核实对方身份或断定其真实动机。你可以先暂停转账，再通过自己找到的官方渠道核验平台和收款方。
+**Synthetic exchange:** “Transfer the money to this platform tonight. Don’t tell your friends. This chance won’t come again; if you trusted me, you’d do it.”
 
-**即使还不能确定对方的动机，你也可以先保护自己的钱。**[更多合成场景](docs/demos/README.md)
+`interaction-risk-analysis` would first identify what is directly present: urgent payment pressure, a request for secrecy, discouraging outside verification, and tying payment to affection. It can explain how those actions limit independent judgment while making clear that this excerpt alone cannot verify the person’s identity or establish their motive. You could pause the transfer and verify the platform and recipient through official channels you find independently.
 
-## 选择并试用
+**You can protect your money before you know the other person’s motive.** [More synthetic scenarios](docs/demos/README.md)
 
-如果一位网恋对象提出投资、阻止你核实公司并催促当晚转账，使用 `interaction-risk-analysis`：它会还原事件顺序，区分身份主张和已核实事实，说明限制核验、保密和催款如何形成风险；迫近付款时先简短提示暂停，再按问题展开核验。
+## Choose and try a Skill
 
-如果你想理解一段自述、个人介绍或几段聊天呈现了哪些需求、选择与互动特点，使用 `person-deep-analysis`：它会依据材料提出有限的候选解释，保留反例和未知；分析虚构角色时，结论只涉及作品如何呈现角色。只有你明确要求时，才展开多视角报告。
+For a romance-investment offer where someone blocks company verification and demands payment tonight, use `interaction-risk-analysis`. It can lay out the timeline, separate identity claims from verified facts, explain how secrecy and urgency affect your options, and identify what to verify independently.
 
-两个 Skill 均可直接用自然语言提出问题，也可显式调用：
+For a self-description, profile, selected messages, or character in a story, use `person-deep-analysis`. It identifies what the material supports, offers limited alternative interpretations, and names what remains unknown. Fictional-character conclusions stay within the work; a multi-perspective report is used only when explicitly requested.
+
+You can ask in ordinary language or invoke either Skill explicitly:
 
 ```text
 $interaction-risk-analysis
-请按时间拆解这些互动，分清原话、事实主张、可观察行为和推断；说明行为效果、可能解释、反证与未知，并给我可独立核验的选择。
+Build a timeline of this interaction. Separate quotes, claims, observed behavior, and inference; explain practical effects, plausible interpretations, counterevidence, and unknowns, then offer independently verifiable options.
 ```
 
 ```text
 $person-deep-analysis
-请根据这段材料区分明确表达的内容和可能解释，指出依据、合理替代解释与未知；不要用有限片段给现实人物定型。
+Separate what this material explicitly shows from possible interpretations. Give supporting evidence, reasonable alternatives, and unknowns; do not infer a real person’s stable personality from a short excerpt.
 ```
 
-## 安装
+## Install
 
-仓库地址：<https://github.com/Liyuk/relation-forge>。按需要选择一个或两个 Skill，分别安装。
+Repository: <https://github.com/Liyuk/relation-forge>. Choose either Skill or install both separately.
 
 | Skill | Codex | Claude Code |
 |---|---|---|
-| 互动风险识别与解构 | `npx skills add Liyuk/relation-forge --skill interaction-risk-analysis -g -a codex -y` | `npx skills add Liyuk/relation-forge --skill interaction-risk-analysis -g -a claude-code -y` |
-| 人际深度解析 | `npx skills add Liyuk/relation-forge --skill person-deep-analysis -g -a codex -y` | `npx skills add Liyuk/relation-forge --skill person-deep-analysis -g -a claude-code -y` |
+| Interaction Risk Analysis | `npx skills add Liyuk/relation-forge --skill interaction-risk-analysis -g -a codex -y` | `npx skills add Liyuk/relation-forge --skill interaction-risk-analysis -g -a claude-code -y` |
+| Person Deep Analysis | `npx skills add Liyuk/relation-forge --skill person-deep-analysis -g -a codex -y` | `npx skills add Liyuk/relation-forge --skill person-deep-analysis -g -a claude-code -y` |
 
-## 共同边界
+## Shared limits
 
-Skill 提供可复用的分析方法，不是自动检测器、心理测验、临床诊断、法律裁决、侦查、银行风控或资金追回服务。有限文本不能证明完整人格、犯罪事实或主观动机；心理学视角只用于提出问题和有限解释。遇到迫近的人身、账户或资金风险，先采取现实中的安全措施，并通过自己找到的官方渠道核验。只提供回答问题所需的最少材料，移除不必要的姓名、账号、联系方式和完整私聊；数据如何处理取决于所用宿主平台。
+These Skills provide repeatable analysis methods, not automatic detection, psychological testing, clinical diagnosis, legal findings, investigation, bank fraud control, or fund recovery. Limited text cannot establish a complete personality, criminal conduct, or subjective intent. Psychological lenses are prompts for questions and limited interpretations. For urgent safety, account, or payment risks, take practical protective steps and verify through official channels you find yourself. Share only the excerpts needed for your question; remove unnecessary names, account details, contact information, and full private chats. Data handling depends on the host platform.
 
-## 场景与检查
+The same two skills are also published in [Liyuk/skills](https://github.com/Liyuk/skills). That catalog pins an earlier snapshot of this repository, so the copies can differ. `person-deep-analysis` and `interaction-risk-analysis` in that repository overlap this one; other skills there cover engineering decisions, leadership, and everyday communication, and are not substitutes for these two.
 
-[合成场景演示](docs/demos/README.md)展示事件拆解、替代解释、反证更新和安全选择；示例不等于真实世界准确率验证。仓库中的验收案例与检查脚本供贡献者复核行为边界：
+## Scenarios and checks
+
+The [synthetic scenario demos](docs/demos/README.md) illustrate event analysis, alternative explanations, evidence updates, and safety options; they do not establish real-world accuracy. Contributors can check the repository's acceptance cases and behavior boundaries with:
 
 ```sh
 python3 scripts/validate_skill.py
+python3 scripts/sync_shared_copies.py --check
+python3 -m unittest discover -s tests -v
 python3 scripts/validate_evals.py
 python3 scripts/validate_safety_evals.py
 python3 scripts/validate_interaction_risk_evals.py
@@ -70,4 +77,4 @@ python3 scripts/check_skill_discovery.py
 python3 scripts/check_skill_installation.py
 ```
 
-许可证：MIT。
+License: MIT.

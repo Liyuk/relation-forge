@@ -5,7 +5,8 @@
 ## 提交前
 
 - 先搜索已有 issue/文档，说明具体场景、预期行为和当前问题。
-- 改动 `skills/interaction-risk-analysis/` 或 `skills/person-deep-analysis/` 时，保持各自运行时包自包含，文件引用使用所在 Skill 目录内的相对路径。
+- 改动 `skills/interaction-risk-analysis/` 或 `skills/person-deep-analysis/` 时，保持各自运行时包自包含，文件引用使用所在 Skill 目录内的相对路径，不要链接到包外。
+- 两个 Skill 里内容相同的参考文件只在 `shared/common/` 修改；根目录 `LICENSE` 是许可证原文。改完后运行 `python3 scripts/sync_shared_copies.py --write`，不要手改副本。两个包里内容不同的文件留在各自目录。
 - 修改任一 Skill 的分析或安全行为时，更新相关验收案例与说明；互动风险相关场景见 `evals/interaction-risk-cases.json` / `evals/interaction-risk-acceptance.md`，安全场景见 `evals/safety-scenarios.json` / `evals/safety-regression.md`。
 - 诈骗和心理学术语的事实主张应有可靠来源；区分研究证据、观察线索和项目假设。不要以仓库自述或单个例子宣称有效。
 - 涉及诈骗、胁迫或控制的行为边界时，检查两个 Skill 是否都优先处理当下安全与财务风险；人物解读不得替代独立核验。
@@ -18,6 +19,8 @@
 
 ```sh
 python3 scripts/validate_skill.py
+python3 scripts/sync_shared_copies.py --check
+python3 -m unittest discover -s tests -v
 python3 scripts/validate_evals.py
 python3 scripts/validate_safety_evals.py
 python3 scripts/validate_interaction_risk_evals.py

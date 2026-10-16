@@ -20,6 +20,10 @@ jobs:
           node-version: '22.20.0'
       - name: Validate repository and skill structure
         run: python scripts/validate_skill.py
+      - name: Check shared skill copies
+        run: python scripts/sync_shared_copies.py --check
+      - name: Run repository convention tests
+        run: python -m unittest discover -s tests -v
       - name: Validate repeatable behavior scenarios
         run: python scripts/validate_evals.py
       - name: Validate public-safety behavior scenarios

@@ -36,4 +36,4 @@ RelationForge 提供两个可独立安装的 Agent Skill。它的核心原则是
 
 [合成场景演示](../demos/README.md)可帮助读者查看事件拆解、误报控制和证据更新的表达方式。这些示例不能证明真实世界的识别准确率、心理测量效度或真人受益。
 
-两个 Skill 均可从 <https://github.com/Liyuk/relation-forge> 安装；各自的 Codex 与 Claude Code 命令见[项目 README](../../README.md)。项目采用 MIT License。
+两个 Skill 均可从 <https://github.com/Liyuk/relation-forge> 安装；各自的 Codex 与 Claude Code 命令见[中文 README](../../README.zh-CN.md)。项目采用 MIT License。

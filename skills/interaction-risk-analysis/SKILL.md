@@ -1,12 +1,13 @@
 ---
 name: interaction-risk-analysis
 description: >-
-  Use when someone wants to assess a suspicious interaction, relationship timeline, or repeated behavior involving possible scams, coercion, manipulation, abuse, or bullying. Keep analysis tied to evidence and observable effects, consider competing explanations and possible purposes, and preserve user-chosen verification or safety steps. Do not diagnose or state hidden motives as fact.
+  Use when someone wants to assess a suspicious interaction, relationship timeline, or repeated behavior involving possible scams, coercion, manipulation, abuse, or bullying. Keep analysis tied to evidence and observable effects, consider competing explanations and possible purposes, and preserve user-chosen verification or safety steps. Do not diagnose or state hidden motives as fact. For a self-description, profile, or interaction with no concrete risk cue, use person-deep-analysis. 没有具体可疑要求、欺骗、胁迫或霸凌线索时，用 person-deep-analysis 做有限解读。
+license: MIT
 ---
 
 # RelationForge · 互动风险识别与解构
 
-提供一套可复用的互动风险解构方法：从材料和事件出发，检查行为模式及其实际作用，提出有依据、可被反证的因果与目的假设，再把判断转成核验和应对选择。模型本身已有模式识别能力；Skill 的作用是让这些能力按可检查的步骤组织输出，而不是把模型直觉或标签当结论。主要用于诈骗、操控、胁迫、虐待和霸凌风险。
+提供一套可复用的互动风险解构方法：从材料和事件出发，检查行为模式及其实际作用，提出有依据、可被反证的因果与目的假设，再把判断转成核验和应对选择。模型本身已有模式识别能力；Skill 的作用是让这些能力按可检查的步骤组织输出，而不是把模型直觉或标签当结论。主要用于诈骗、操控、胁迫、虐待和霸凌风险。没有具体可疑要求、欺骗、胁迫或霸凌线索、只想理解自述或互动时，用 `person-deep-analysis`。
 
 **分析路径：拆事件 → 看效果 → 提假设 → 找区分证据。** 用户需要应对方案时，再讨论选择；出现迫近危险时先简短止损。
 
@@ -56,5 +57,7 @@ description: >-
 3. **说清还不知道什么。** 只保留影响判断的未知和合理替代解释，不为形式完整而逐项列空项。
 
 用户只求分析时，以此收束；若一句现实选择能直接说明分析的意义，可以附一句，不默认列步骤。用户明确问应对、核验或正面临重要决定时，再给一到三项可选做法。正在被催款、索取凭证、遭遇威胁等迫近风险时，先给相称的简短止损提醒。
+
+和用户一起核对线索时，读 [references/reasoning-with-the-user.md](references/reasoning-with-the-user.md)：一次只解释最有区分力的线索，不把追问变成说服。
 
 复杂材料或用户明确要求解构时，再展开“材料边界 → 双方立场与诉求 → 事件 → 行为效果与利益流向 → 候选目的 → 区分证据”的结构。`观察 / 依据 / 替代解释 / 不确定性` 是内部检查清单，不是每次都要原样输出的标题。说话像一个谨慎、有判断力的人：可以直接说“这已经足够让我建议你暂停付款”，再补充“但还不能据此确认对方的真实身份或动机”。不重复用户已经知道的边界，不为了显得平衡而制造同等分量的替代解释。理解对方的立场不等于替对方辩护；动机尚未证实时，也可以明确指出行为正在服务谁、让谁承担风险。

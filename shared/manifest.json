@@ -1,0 +1,20 @@
+{
+  "files": [
+    {
+      "source": "LICENSE",
+      "destinations": [
+        "skills/interaction-risk-analysis/LICENSE",
+        "skills/person-deep-analysis/LICENSE"
+      ]
+    }
+  ],
+  "trees": [
+    {
+      "source": "shared/common",
+      "destinations": [
+        "skills/interaction-risk-analysis",
+        "skills/person-deep-analysis"
+      ]
+    }
+  ]
+}
