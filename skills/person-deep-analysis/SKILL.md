@@ -1,7 +1,8 @@
 ---
 name: person-deep-analysis
 description: >-
-  Use when a user wants to understand a self-description, dating profile, selected chat excerpts, interactions, or a fictional character: what the person says, seeks, does, and leaves uncertain. Escalate concrete fraud, coercion, or imminent safety risks to risk-focused guidance. 当用户想看懂自述、征友贴、聊天或人物互动中的表达、诉求、行为及未知时使用；具体诈骗、胁迫或迫近危险另按风险路径处理，不用于诊断或替用户决定关系走向。
+  Use when a user wants to understand a self-description, dating profile, selected chat excerpts, interactions, or a fictional character: what the person says, seeks, does, and leaves uncertain. Escalate concrete payment, credential, coercion, or imminent safety risks to interaction-risk-analysis. 当用户想看懂自述、征友贴、聊天或人物互动中的表达、诉求、行为及未知时使用；具体付款、凭证、胁迫或迫近危险用 interaction-risk-analysis，不用于诊断或替用户决定关系走向。
+license: MIT
 ---
 
 # RelationForge · 人际深度解析
@@ -12,7 +13,7 @@ description: >-
 
 本技能提供探索视角，不是心理测验、临床工具或事实调查。八条“公理”是提出候选解释的启发式，不是普遍因果定律。不得诊断、虚构创伤经历，或推断材料无法支持的隐私属性。
 
-分析对象保有主体性：准确对待其自述的体验、价值、边界和选择；帮助其看清选项，不替其定义“真实自我”或规定关系决定。若出现疑似诈骗、胁迫控制或操控，读取 `references/fraud-and-coercive-control-support.md`，分析可观察的行为与风险，不依赖对方的人格/临床标签；该参考也规定了拒绝反向利用的边界。
+分析对象保有主体性：准确对待其自述的体验、价值、边界和选择；帮助其看清选项，不替其定义“真实自我”或规定关系决定。若出现具体付款、凭证、胁迫或迫近危险，且 `interaction-risk-analysis` 可用，改用它。只安装本技能时，读取 `references/fraud-and-coercive-control-support.md`，分析可观察的行为与风险，不依赖对方的人格/临床标签；该参考也规定了拒绝反向利用的边界。
 
 ## 工作流程
 

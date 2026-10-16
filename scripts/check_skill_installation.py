@@ -16,6 +16,7 @@ TIMEOUT_SECONDS = 120
 REQUIRED_RUNTIME_FILES = {
     "interaction-risk-analysis": (
         "SKILL.md",
+        "LICENSE",
         "agents/openai.yaml",
         "modules/m1-needs-and-preferences.md",
         "modules/m2-self-cognition.md",
@@ -47,6 +48,7 @@ REQUIRED_RUNTIME_FILES = {
     ),
     "person-deep-analysis": (
         "SKILL.md",
+        "LICENSE",
         "agents/openai.yaml",
         "modules/m1-needs-and-preferences.md",
         "modules/m2-self-cognition.md",
@@ -72,8 +74,8 @@ REQUIRED_RUNTIME_FILES = {
     ),
 }
 REPOSITORY_ONLY_ENTRIES = (
-    "archive", "docs", "evals", "scripts", ".github", "README.md",
-    "README_EN.md", "CONTRIBUTING.md", "LICENSE",
+    "archive", "docs", "evals", "scripts", "shared", "tests", ".github", "README.md",
+    "README.zh-CN.md", "CONTRIBUTING.md",
 )
 
 
